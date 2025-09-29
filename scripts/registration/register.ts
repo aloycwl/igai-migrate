@@ -10,7 +10,7 @@ import axios from 'axios'
 async function getHashFromUrl(url: string): Promise<Hex> {
   const response = await axios.get(url, { responseType: "arraybuffer" });
   const buffer = Buffer.from(response.data);
-  return "0x" + createHash("sha256").update(buffer).digest("hex");
+  return ("0x" + createHash("sha256").update(buffer).digest("hex")) as Hex;
 }
 
 const main = async function () {
@@ -24,6 +24,21 @@ const main = async function () {
     
     const { id, unixTimestamp, cid } = dbResult;
     
+    // 1. Generate hash from CID URL
+    const mediaUrl = `https://${cid}.ipfs.w3s.link/`;
+    let mediaHash: Hex;
+    
+    try {
+        mediaHash = await getHashFromUrl(mediaUrl);
+        console.log(`Successfully generated hash for CID: ${cid}`);
+    } catch (error) {
+        console.error(`Failed to fetch and hash content from CID: ${cid}`);
+        console.error(`URL: ${mediaUrl}`);
+        console.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
+        return;
+    }
+    
+    // 2. Set up your IP Metadata
     const ipMetadata: IpMetadata = client.ipAsset.generateIpMetadata({
         title: 'IGAI Data #' + id,
         description: 'A decentralised personal health insight',
@@ -37,8 +52,8 @@ const main = async function () {
         ],
         image: 'https://amber-implicit-jay-463.mypinata.cloud/ipfs/bafkreiecymi4o3zib7m3mdbanhzah4vssebktpqftjojj3gx7mgtykmray',
         imageHash: '0x82c311c76f280fd9b60c2069f203f2b29102a9be059a5c94ecd7fb0d3c299106',
-        mediaUrl: cid,
-        mediaHash: '0xb52a44f53b2485ba772bd4857a443e1fb942cf5dda73c870e2d2238ecd607aee',
+        mediaUrl: mediaUrl,
+        mediaHash: mediaHash,
         mediaType: 'application/json',
     })
 
