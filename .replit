@@ -4,3 +4,26 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Story Protocol CLI"
+
+[[workflows.workflow]]
+name = "Story Protocol CLI"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"Story Protocol TypeScript SDK Examples\"; echo \"Available scripts:\"; echo \"- npm run register\"; echo \"- npm run register-custom\"; echo \"- npm run derivative-commercial\"; echo \"- npm run derivative-non-commercial\"; echo \"- npm run mint-license\"; echo \"- npm run create-spg-collection\"; echo \"Use 'npm run <script-name>' to execute any script\"; bash"
+
+[workflows.workflow.metadata]
+outputType = "console"
