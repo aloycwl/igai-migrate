@@ -12,7 +12,7 @@ export async function dbCID() {
     // Select query with error checking
     const selectResult = await s
       .from("igai")
-      .select("cid")
+      .select("cid, id, created_at")
       .or("m.is.null,m.neq.true")
       .order("id", { ascending: true })
       .limit(1)
@@ -22,11 +22,13 @@ export async function dbCID() {
       throw new Error(`Database select error: ${selectResult.error.message}`);
     }
 
-    const cid = selectResult.data?.cid;
+    const data = selectResult.data;
     
-    if (!cid) {
+    if (!data?.cid) {
       return { success: false, error: "No CID found", type: "NO_RECORDS" };
     }
+
+    const { cid, id, created_at } = data;
 
     // Update query with error checking
     const updateResult = await s
@@ -38,7 +40,16 @@ export async function dbCID() {
       throw new Error(`Database update error: ${updateResult.error.message}`);
     }
     
-    return { success: true, cid };
+    // Convert datetime to unix timestamp
+    const unixTimestamp = Math.floor(new Date(created_at).getTime() / 1000).toString();
+    
+    return { 
+      success: true, 
+      cid, 
+      id, 
+      created_at,
+      unixTimestamp 
+    };
   } catch (e) {
     return { 
       success: false, 

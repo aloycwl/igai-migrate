@@ -4,15 +4,26 @@ import { uploadJSONToIPFS } from '../../utils/functions/uploadToIpfs'
 import { createHash } from 'crypto'
 import { IpMetadata, PILFlavor, WIP_TOKEN_ADDRESS } from '@story-protocol/core-sdk'
 import { parseEther } from 'viem'
+import { dbCID } from '../database/dbCID'
 
 const main = async function () {
+    // 0. Fetch data from database
+    const dbResult = await dbCID();
+    
+    if (!dbResult.success) {
+        console.error('Failed to fetch data from database:', dbResult.error);
+        return;
+    }
+    
+    const { id, unixTimestamp, cid } = dbResult;
+    
     // 1. Set up your IP Metadata
     //
     // Docs: https://docs.story.foundation/concepts/ip-asset/ipa-metadata-standard
     const ipMetadata: IpMetadata = client.ipAsset.generateIpMetadata({
-        title: 'Midnight Marriage',
+        title: 'IGAI Data #' + id,
         description: 'A decentralised personal health insight',
-        createdAt: '1740005219',
+        createdAt: unixTimestamp,
         creators: [
             {
                 name: 'Insight Genesis',
@@ -31,7 +42,7 @@ const main = async function () {
     //
     // Docs: https://docs.opensea.io/docs/metadata-standards#metadata-structure
     const nftMetadata = {
-        name: 'Midnight Marriage',
+        name: 'IGAI Data #' + id,
         description: 'A decentralised personal health insight. This NFT represents ownership of the IP Asset.',
         image: '',
         attributes: [
