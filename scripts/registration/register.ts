@@ -3,8 +3,15 @@ import { client, networkInfo } from '../../utils/config'
 import { uploadJSONToIPFS } from '../../utils/functions/uploadToIpfs'
 import { createHash } from 'crypto'
 import { IpMetadata, PILFlavor, WIP_TOKEN_ADDRESS } from '@story-protocol/core-sdk'
-import { parseEther } from 'viem'
+import { parseEther, toHex, Hex } from 'viem'
 import { dbCID } from '../database/dbCID'
+import axios from 'axios'
+
+async function getHashFromUrl(url: string): Promise<Hex> {
+  const response = await axios.get(url, { responseType: "arraybuffer" });
+  const buffer = Buffer.from(response.data);
+  return "0x" + createHash("sha256").update(buffer).digest("hex");
+}
 
 const main = async function () {
     // 0. Fetch data from database
@@ -17,9 +24,6 @@ const main = async function () {
     
     const { id, unixTimestamp, cid } = dbResult;
     
-    // 1. Set up your IP Metadata
-    //
-    // Docs: https://docs.story.foundation/concepts/ip-asset/ipa-metadata-standard
     const ipMetadata: IpMetadata = client.ipAsset.generateIpMetadata({
         title: 'IGAI Data #' + id,
         description: 'A decentralised personal health insight',
@@ -31,9 +35,9 @@ const main = async function () {
                 contributionPercent: 100,
             },
         ],
-        image: 'https://cdn2.suno.ai/image_large_8bcba6bc-3f60-4921-b148-f32a59086a4c.jpeg',
-        imageHash: '0xc404730cdcdf7e5e54e8f16bc6687f97c6578a296f4a21b452d8a6ecabd61bcc',
-        mediaUrl: 'https://cdn1.suno.ai/dcd3076f-3aa5-400b-ba5d-87d30f27c311.mp3',
+        image: 'https://amber-implicit-jay-463.mypinata.cloud/ipfs/bafkreiecymi4o3zib7m3mdbanhzah4vssebktpqftjojj3gx7mgtykmray',
+        imageHash: '0x82c311c76f280fd9b60c2069f203f2b29102a9be059a5c94ecd7fb0d3c299106',
+        mediaUrl: cid,
         mediaHash: '0xb52a44f53b2485ba772bd4857a443e1fb942cf5dda73c870e2d2238ecd607aee',
         mediaType: 'application/json',
     })
