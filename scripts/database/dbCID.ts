@@ -1,11 +1,11 @@
 import { createClient as cc } from "@supabase/supabase-js";
 
 // Validate environment variable
-if (!process.env.SB) {
-  throw new Error("Missing required environment variable: SB (Supabase API key). Please configure it in Replit Secrets.");
+if (!process.env.SUPABASE) {
+  throw new Error("Missing required environment variable: SUPABASE (Supabase API key). Please configure it in Replit Secrets.");
 }
 
-const s = cc("https://uxxfyiukhlsahcyszutt.supabase.co", process.env.SB);
+const s = cc("https://uxxfyiukhlsahcyszutt.supabase.co", process.env.SUPABASE);
 
 export async function dbCID() {
   try {
