@@ -3,7 +3,7 @@ import { client, networkInfo } from '../../utils/config'
 import { uploadJSONToIPFS } from '../../utils/functions/uploadToIpfs'
 import { createHash } from 'crypto'
 import { IpMetadata, PILFlavor, WIP_TOKEN_ADDRESS } from '@story-protocol/core-sdk'
-import { parseEther, toHex, Hex } from 'viem'
+import { parseEther, Hex } from 'viem'
 import { dbCID } from '../database/dbCID'
 import axios from 'axios'
 
