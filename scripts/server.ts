@@ -3,16 +3,24 @@ import main from './registration/register'
 
 const app = express()
 
+process.stdout.isTTY = true
+process.stdin.isTTY = true
+
+function log(...args: any[]) {
+  console.log(...args)
+  process.stdout.write("") // flush immediately
+}
+
 // Endpoint to trigger the script N times
 app.post('/run-register', async (req, res) => {
   const count = Number(req.query.count) || 1
 
-  console.log(`Running register.ts ${count} times...`)
+  log(`Running register.ts ${count} times...`)
 
   for (let i = 0; i < count; i++) {
     try {
       await main()
-      console.log(`Run ${i + 1} success`)
+      console.log(`Run ${i + 1} success from server`)
     } catch (err) {
       console.error(`Run ${i + 1} failed`, err)
     }
