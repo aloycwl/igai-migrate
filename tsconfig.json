@@ -17,6 +17,6 @@
     "declaration": false,
     "isolatedModules": false
   },
-  "include": ["src/**/*.ts"],
+  "include": ["scripts/**/*.ts", "utils/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
