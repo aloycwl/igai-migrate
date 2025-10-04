@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "ts-node-dev --respawn --transpile-only --prefer-ts true --no-notify scripts/server.ts | cat",
+        "dev": "ts-node scripts/server.ts",
         "test": "echo \"Error: no test specified\" && exit 1",
         "register": "npx ts-node ./scripts/registration/register.ts",
         "register-custom": "npx ts-node ./scripts/registration/registerCustom.ts",
