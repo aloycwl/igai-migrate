@@ -72,25 +72,30 @@ const main = async function () {
   const nftHash = createHash('sha256').update(JSON.stringify(nftMetadata)).digest('hex')
 
   // 4. Register the NFT as an IP Asset
-  const response = await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
-    spgNftContract: SPGNFTContractAddress,
-    licenseTermsData: [
-      {
-        terms: PILFlavor.commercialRemix({
-          commercialRevShare: 5,
-          defaultMintingFee: parseEther('1'),
-          currency: WIP_TOKEN_ADDRESS,
-        }),
+  try {
+    const response = await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
+      spgNftContract: SPGNFTContractAddress,
+      licenseTermsData: [
+        {
+          terms: PILFlavor.commercialRemix({
+            commercialRevShare: 5,
+            defaultMintingFee: parseEther('1'),
+            currency: WIP_TOKEN_ADDRESS,
+          }),
+        },
+      ],
+      ipMetadata: {
+        ipMetadataURI: `https://ipfs.io/ipfs/${ipIpfsHash}`,
+        ipMetadataHash: `0x${ipHash}`,
+        nftMetadataURI: `https://ipfs.io/ipfs/${nftIpfsHash}`,
+        nftMetadataHash: `0x${nftHash}`,
       },
-    ],
-    ipMetadata: {
-      ipMetadataURI: `https://ipfs.io/ipfs/${ipIpfsHash}`,
-      ipMetadataHash: `0x${ipHash}`,
-      nftMetadataURI: `https://ipfs.io/ipfs/${nftIpfsHash}`,
-      nftMetadataHash: `0x${nftHash}`,
-    },
-  })
-  console.log(`${networkInfo.protocolExplorer}/ipa/${response.ipId}`)
+    })
+    console.log(`${networkInfo.protocolExplorer}/ipa/${response.ipId}`)
+  } catch (err) {
+    console.log(err)
+    return
+  }
 }
 
 export default main
