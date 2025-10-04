@@ -2,7 +2,6 @@ import express from 'express'
 import main from './registration/register'
 
 const app = express()
-const PORT = process.env.PORT || 3000
 
 // Endpoint to trigger the script N times
 app.post('/run-register', async (req, res) => {
@@ -24,6 +23,6 @@ app.post('/run-register', async (req, res) => {
   res.json({ status: 'ok', runs: count })
 })
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
+app.listen(3000, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:3000`)
 })
