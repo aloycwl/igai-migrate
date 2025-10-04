@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const config_1 = require("../../utils/config");
+// TODO: Replace with your own IP ID and license terms id
+const IP_ID = '0x641E638e8FCA4d4844F509630B34c9D524d40BE5';
+const LICENSE_TERMS_ID = '1';
+const main = async function () {
+    // 1. Mint License Tokens
+    //
+    // Docs: https://docs.story.foundation/sdk-reference/license#mintlicensetokens
+    const response = await config_1.client.license.mintLicenseTokens({
+        licenseTermsId: LICENSE_TERMS_ID,
+        licensorIpId: IP_ID,
+        amount: 1,
+        maxMintingFee: BigInt(0), // disabled
+        maxRevenueShare: 100, // default
+    });
+    console.log('License minted:', {
+        'Transaction Hash': response.txHash,
+        'License Token IDs': response.licenseTokenIds,
+    });
+};
+main();

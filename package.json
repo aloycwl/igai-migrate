@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "ts-node scripts/server.ts",
-        "build": "echo \"ok\"",
+        "dev": "node scripts/server.js",
+        "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1",
         "register": "npx ts-node ./scripts/registration/register.ts",
         "register-custom": "npx ts-node ./scripts/registration/registerCustom.ts",
