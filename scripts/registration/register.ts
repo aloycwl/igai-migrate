@@ -105,4 +105,9 @@ const main = async function () {
     console.log(`View on the explorer: ${networkInfo.protocolExplorer}/ipa/${response.ipId}`)
 }
 
-main()
+export default main
+
+// only run automatically if called directly via CLI
+if (require.main === module) {
+  main()
+}
