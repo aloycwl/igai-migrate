@@ -14,7 +14,6 @@ app.post('/run-register', async (req, res) => {
     try {
       console.log(`Starting run ${i + 1}`)
       await main()
-      console.log(`Run ${i + 1} success`)
     } catch (err) {
       console.error(`Run ${i + 1} failed`, err)
     }
