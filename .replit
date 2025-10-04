@@ -32,5 +32,9 @@ args = "npm run dev"
 outputType = "console"
 
 [[ports]]
+localPort = 80
+externalPort = 3000
+
+[[ports]]
 localPort = 3000
 externalPort = 80
