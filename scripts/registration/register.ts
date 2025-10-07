@@ -41,7 +41,7 @@ const main = async function () {
     creators: [
       {
         name: 'Insight Genesis',
-        address: '0x2e0aCE0129E66A36cee92c5146C73Ec4874d0109',
+        address: '0x41034f6c38DDB166A21F1eba3dCf93de308375A6',
         contributionPercent: 100,
       },
     ],
