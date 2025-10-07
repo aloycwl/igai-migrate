@@ -53,7 +53,7 @@ export const networkInfo = {
     rpcProviderUrl: process.env.RPC_PROVIDER_URL || networkConfigs[network].rpcProviderUrl,
 }
 
-export const account: Account = privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as Address)
+export const account: Account = privateKeyToAccount(`0x${process.env.WALLET_PRIVATE_KEY}` as Address)
 
 const config: StoryConfig = {
     account,
